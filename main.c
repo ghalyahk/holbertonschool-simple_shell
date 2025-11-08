@@ -1,19 +1,20 @@
 #include "shell.h"
 #include <stdlib.h>
+#include <unistd.h>  /* isatty, STDIN_FILENO */
+#include <stdio.h>   /* printf */
 
-/**
- * main - Entry point for simple_shell
- *
- * Return: Always 0
- */
 int main(void)
 {
     char *line;
 
     while (1)
     {
+        /* اطبع الـ prompt فقط إذا stdin من terminal */
+        if (isatty(STDIN_FILENO))
+            printf("#cisfun$ ");
+
         line = read_command();
-        if (line == NULL) /* EOF or error */
+        if (line == NULL) /* EOF أو خطأ */
             break;
 
         execute_command(line);
