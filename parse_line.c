@@ -1,7 +1,8 @@
-#include "shell.h"
-#include <stdlib.h>   /* malloc, free, NULL */
-#include <string.h>   /* strtok, strlen, strcmp */
-#include <stddef.h>   /* NULL أيضا إذا أحببت */
+#include <stdio.h>   /* perror */
+#include <stdlib.h>  /* malloc, free, NULL, exit */
+#include <string.h>  /* strtok */
+#include <stddef.h>  /* NULL */
+#include "shell.h
 
 #define TOK_BUFSIZE 64
 
