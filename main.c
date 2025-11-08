@@ -1,41 +1,25 @@
 #include "shell.h"
+#include <stdlib.h>
 
 /**
- * main - Simple shell program
+ * main - Entry point for simple_shell
  *
  * Return: Always 0
  */
 int main(void)
 {
-	char *line = NULL;
-	size_t len = 0;
-	ssize_t read;
-	char **args = NULL;
+    char *line;
 
-	while (1)
-	{
-		printf("$ ");
+    while (1)
+    {
+        line = read_command();
+        if (line == NULL) /* EOF or error */
+            break;
 
-		read = getline(&line, &len, stdin);
-		if (read == -1)
-		{
-			free(line);
-			exit(EXIT_FAILURE);
-		}
+        execute_command(line);
+        free(line);
+    }
 
-		args = parse_line(line);
-		if (args == NULL)
-			continue;
-
-		if (execute_command(args) == -1)
-		{
-			free(args);
-			break;
-		}
-
-		free(args);
-	}
-
-	free(line);
-	return (0);
+    return (0);
 }
+

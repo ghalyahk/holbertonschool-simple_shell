@@ -1,38 +1,44 @@
-#include "shell.h"
+#include <stdio.h>
+#include <stdlib.h>
+#include <unistd.h>
+#include <sys/wait.h>
+
+extern char **environ;
 
 /**
- * execute_command - Execute a command
- * @args: command + arguments
+ * execute_command - Forks a child process and executes a command
+ * @command: Absolute path of the command to execute
  *
- * Return: 0 on success, -1 on exit
+ * Return: 0 on success, -1 on failure
  */
-int execute_command(char **args)
+int execute_command(char *command)
 {
-	pid_t pid;
-	int status;
+    pid_t pid;
+    int status;
+    char *argv[2];
 
-	if (args[0] == NULL)
-		return (0);
+    if (command == NULL || command[0] == '\0')
+        return (-1);
 
-	/* Built-in exit */
-	if (strcmp(args[0], "exit") == 0)
-		return (-1);
+    argv[0] = command;
+    argv[1] = NULL;
 
-	pid = fork();
-	if (pid == 0)
-	{
-		if (execvp(args[0], args) == -1)
-			perror("hsh");
-		exit(EXIT_FAILURE);
-	}
-	else if (pid < 0)
-	{
-		perror("hsh");
-	}
-	else
-	{
-		waitpid(pid, &status, 0);
-	}
-
-	return (0);
+    pid = fork();
+    if (pid == 0)
+    {
+        execve(argv[0], argv, environ);
+        perror("./shell");
+        exit(EXIT_FAILURE);
+    }
+    else if (pid < 0)
+    {
+        perror("fork");
+        return (-1);
+    }
+    else
+    {
+        waitpid(pid, &status, 0);
+    }
+    return (0);
 }
+
