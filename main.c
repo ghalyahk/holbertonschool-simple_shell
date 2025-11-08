@@ -1,6 +1,6 @@
 #include "shell.h"
 #include <stdlib.h>
-#include <unistd.h>  /* isatty */
+#include <unistd.h>  /* isatty, STDIN_FILENO */
 #include <stdio.h>   /* printf */
 
 int main(void)
