@@ -2,33 +2,44 @@
 
 int main(void)
 {
-	char *line = NULL;
-	size_t len = 0;
-	char **args;
-	ssize_t nread;
+    char *line = NULL;
+    size_t len = 0;
+    char **args;
+    char *cmd_path;
 
-	while (1)
-	{
-		/* prompt only if interactive */
-		if (isatty(STDIN_FILENO))
-			printf("$ ");
+    while (1)
+    {
+        prompt();
 
-		nread = getline(&line, &len, stdin);
-		if (nread == -1)
-			break;
+        if (getline(&line, &len, stdin) == -1)
+        {
+            free(line);
+            exit(0);
+        }
 
-		args = tokenize(line);
+        args = tokenize(line);
+        if (!args || !args[0])
+        {
+            free_tokens(args);
+            continue;
+        }
 
-		if (args[0] != NULL)
-			execute(args);
+        cmd_path = find_path(args[0]);
 
-		free(args);
+        if (cmd_path == NULL)
+        {
+            perror("Command not found");
+            free_tokens(args);
+            continue;   /* لا نسوي fork */
+        }
 
-		/* print prompt again only if interactive */
-		/* (DO NOT print prompt in non-interactive mode) */
-		/* BUT don't print here; loop will print at top */
-	}
+        execute(cmd_path, args);
 
-	free(line);
-	return (0);
+        free(cmd_path);
+        free_tokens(args);
+    }
+
+    free(line);
+    return 0;
 }
+
