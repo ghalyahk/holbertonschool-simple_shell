@@ -1,38 +1,35 @@
-.TH simple_shell 1 "November 2025" "Version 1.0" "User Commands"
+.TH hsh 1
 .SH NAME
-simple_shell \- a simple UNIX command interpreter
+hsh \- simple shell
 
 .SH SYNOPSIS
 .B hsh
-.RI [command ...]
 
 .SH DESCRIPTION
-The
-.B simple_shell
-program is a basic command-line interpreter that reads input from the user, parses it into tokens, and executes commands.
+Simple UNIX command interpreter that reads input, parses it and executes commands.
 
-It supports:
-.IP \(bu 2
-Running commands using \fBexecvp\fR
-.IP \(bu 2
-Forking child processes
-.IP \(bu 2
-Waiting for commands to finish
-.IP \(bu 2
-Built-in \fBexit\fR command
+.SH BUILTINS
+.TP
+.B exit
+Exit the shell.
+
+.TP
+.B env
+Print the environment variables.
 
 .SH USAGE
-After starting the shell:
-
+Interactive:
 .EX
 $ ./hsh
-$ ls -l
-$ echo hello
+$ ls
 $ exit
 .EE
 
-.SH EXIT STATUS
-Returns 0 on success.
+Non-interactive:
+.EX
+$ echo "ls" | ./hsh
+.EE
 
-.SH AUTHORS
+.SH AUTHOR
 See AUTHORS file.
+
