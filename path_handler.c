@@ -19,16 +19,16 @@ char *find_path(char *command)
     char *copy, *dir, *full;
     int len;
 
-    if (!path)
-        return NULL;
-
-    /* إذا الأمر فيه / نفذ مباشرة */
+    /* إذا الأمر يحتوي /، نجرب تنفيذه مباشرة */
     if (strchr(command, '/') != NULL)
     {
         if (access(command, X_OK) == 0)
             return strdup(command);
         return NULL;
     }
+
+    if (!path)
+        return NULL;
 
     copy = strdup(path);
     dir = strtok(copy, ":");
