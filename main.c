@@ -12,11 +12,13 @@ int main(void)
 
 	while (1)
 	{
-	
 		if (isatty(STDIN_FILENO))
 			printf("$ ");
 
 		line = read_line();
+		if (line == NULL)
+			break;
+
 		args = tokenize(line);
 
 		if (args[0] != NULL)
@@ -28,4 +30,3 @@ int main(void)
 
 	return (0);
 }
-

@@ -15,22 +15,22 @@ int execute(char **args)
 	if (args[0] == NULL)
 		return (1);
 
-
+	/* If user entered an absolute or relative path */
 	if (strchr(args[0], '/'))
 	{
 		if (stat(args[0], &st) == 0)
 			return (run_command(args[0], args));
-		else
-		{
-			fprintf(stderr, "./hsh: 1: %s: not found\n", args[0]);
-			return (0);
-		}
+
+		fprintf(stderr, "./hsh: 1: %s: not found\n", args[0]);
+		return (0);
 	}
 
-
 	path = getenv("PATH");
-	if (!path)
+	if (!path || path[0] == '\0')
+	{
+		fprintf(stderr, "./hsh: 1: %s: not found\n", args[0]);
 		return (0);
+	}
 
 	path_copy = strdup(path);
 	dir = strtok(path_copy, ":");
@@ -52,9 +52,9 @@ int execute(char **args)
 }
 
 /**
- * run_command - runs the command in a new process
- * @path: path to the command
- * @args: arguments array
+ * run_command - runs a valid command
+ * @path: full path to executable
+ * @args: array of arguments
  *
  * Return: 1 always
  */
@@ -79,9 +79,7 @@ int run_command(char *path, char **args)
 		}
 	}
 	else
-	{
 		waitpid(pid, &status, 0);
-	}
 
 	return (1);
 }

@@ -25,7 +25,6 @@ char **tokenize(char *line)
 		args[i++] = token;
 		token = strtok(NULL, " \t\r\n");
 	}
-
 	args[i] = NULL;
 	return (args);
 }
