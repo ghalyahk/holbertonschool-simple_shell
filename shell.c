@@ -9,7 +9,9 @@ int main(void)
 
     while (1)
     {
-        prompt();
+        /* اطبع prompt فقط إذا كان التفاعل مع المستخدم مباشر */
+        if (isatty(STDIN_FILENO))
+            prompt();
 
         if (getline(&line, &len, stdin) == -1)
         {
@@ -30,7 +32,7 @@ int main(void)
         {
             perror("Command not found");
             free_tokens(args);
-            continue;   /* no fork */
+            continue;   /* لا نسوي fork */
         }
 
         execute(cmd_path, args);
