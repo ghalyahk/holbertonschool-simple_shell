@@ -1,18 +1,31 @@
 #include "shell.h"
 
+/**
+ * tokenize - splits a line into tokens
+ * @line: input line from user
+ *
+ * Return: array of tokens (arguments)
+ */
 char **tokenize(char *line)
 {
-    char **args = malloc(64 * sizeof(char *));
-    char *token;
-    int i = 0;
+	char **args;
+	char *token;
+	int bufsize = 64, i = 0;
 
-    token = strtok(line, " \n");
-    while (token != NULL)
-    {
-        args[i++] = token;
-        token = strtok(NULL, " \n");
-    }
-    args[i] = NULL;
+	args = malloc(bufsize * sizeof(char *));
+	if (!args)
+	{
+		perror("malloc");
+		exit(EXIT_FAILURE);
+	}
 
-    return args;
+	token = strtok(line, " \t\r\n");
+	while (token != NULL)
+	{
+		args[i++] = token;
+		token = strtok(NULL, " \t\r\n");
+	}
+
+	args[i] = NULL;
+	return (args);
 }

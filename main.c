@@ -1,35 +1,31 @@
 #include "shell.h"
 
+/**
+ * main - simple shell loop
+ *
+ * Return: 0 on success
+ */
 int main(void)
 {
-    char *line = NULL;
-    size_t len = 0;
-    char **args;
-    ssize_t nread;
+	char *line;
+	char **args;
 
-    while (1)
-    {
-        /* prompt only if interactive */
-        if (isatty(STDIN_FILENO))
-            printf("$ ");
+	while (1)
+	{
+	
+		if (isatty(STDIN_FILENO))
+			printf(":) ");
 
-        nread = getline(&line, &len, stdin);
-        if (nread == -1)
-            break;
+		line = read_line();
+		args = tokenize(line);
 
-        args = tokenize(line);
+		if (args[0] != NULL)
+			execute(args);
 
-        if (args[0] != NULL)
-            execute(args);
+		free(line);
+		free(args);
+	}
 
-        free(args);
-
-        /* print prompt again only if interactive */
-        /* (DO NOT print prompt in non-interactive mode) */
-        /* BUT don't print here; loop will print at top */
-    }
-
-    free(line);
-    return (0);
+	return (0);
 }
 
