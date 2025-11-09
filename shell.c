@@ -9,7 +9,6 @@ int main(void)
 
     while (1)
     {
-        /* اطبع prompt فقط إذا كان التفاعل مع المستخدم مباشر */
         if (isatty(STDIN_FILENO))
             prompt();
 
@@ -26,13 +25,22 @@ int main(void)
             continue;
         }
 
+        /* Built-in exit */
+        if (strcmp(args[0], "exit") == 0)
+        {
+            free_tokens(args);
+            free(line);
+            exit(0);
+        }
+
         cmd_path = find_path(args[0]);
 
         if (cmd_path == NULL)
         {
-            perror("Command not found");
+            /* اطبع رسالة خطأ مشابهة bash عند PATH فارغ */
+            fprintf(stderr, "./hsh: 1: %s: not found\n", args[0]);
             free_tokens(args);
-            continue;   /* لا نسوي fork */
+            continue;
         }
 
         execute(cmd_path, args);

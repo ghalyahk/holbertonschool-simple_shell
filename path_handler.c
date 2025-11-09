@@ -10,7 +10,7 @@ char *get_env_path(void)
             return environ[i] + 5;
         i++;
     }
-    return NULL;
+    return NULL; /* PATH غير موجود */
 }
 
 char *find_path(char *command)
@@ -27,7 +27,7 @@ char *find_path(char *command)
         return NULL;
     }
 
-    if (!path)
+    if (!path || path[0] == '\0') /* PATH فارغ */
         return NULL;
 
     copy = strdup(path);
