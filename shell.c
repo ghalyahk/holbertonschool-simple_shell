@@ -1,26 +1,45 @@
-#include <stdio.h>
-#include <stdlib.h>
+#include "shell.h"
 
-/**
- * read_command - Reads a line from stdin
- *
- * Return: pointer to the line (must be freed by caller), or NULL on EOF/error
- */
-char *read_command(void)
+int main(void)
 {
     char *line = NULL;
     size_t len = 0;
-    ssize_t nread;
+    char **args;
+    char *cmd_path;
 
-    printf("#cisfun$ ");
-    nread = getline(&line, &len, stdin);
-    if (nread == -1)
+    while (1)
     {
-        free(line);
-        return (NULL);
+        prompt();
+
+        if (getline(&line, &len, stdin) == -1)
+        {
+            free(line);
+            exit(0);
+        }
+
+        args = tokenize(line);
+        if (!args || !args[0])
+        {
+            free_tokens(args);
+            continue;
+        }
+
+        cmd_path = find_path(args[0]);
+
+        if (cmd_path == NULL)
+        {
+            perror("Command not found");
+            free_tokens(args);
+            continue;  // ✅ لا نسوي fork
+        }
+
+        execute(cmd_path, args);
+
+        free(cmd_path);
+        free_tokens(args);
     }
-    if (line[nread - 1] == '\n')
-        line[nread - 1] = '\0';
-    return (line);
+
+    free(line);
+    return 0;
 }
 

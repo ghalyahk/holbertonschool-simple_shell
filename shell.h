@@ -7,8 +7,13 @@
 #include <string.h>
 #include <sys/wait.h>
 
+extern char **environ;
+
+void prompt(void);
 char **tokenize(char *line);
-void execute(char **args);
+void free_tokens(char **tokens);
+char *find_path(char *command);
+void execute(char *cmd, char **args);
 
 #endif
 

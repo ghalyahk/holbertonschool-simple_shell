@@ -1,25 +1,18 @@
 #include "shell.h"
 
-void execute(char **args)
+void execute(char *cmd, char **args)
 {
-	pid_t pid;
-	int status;
+    pid_t pid = fork();
 
-	pid = fork();
-	if (pid == -1)
-	{
-		perror("fork");
-		return;
-	}
-
-	if (pid == 0)
-	{
-		if (execvp(args[0], args) == -1)
-			perror("execvp");
-		exit(EXIT_FAILURE);
-	}
-	else
-	{
-		waitpid(pid, &status, 0);
-	}
+    if (pid == 0)
+    {
+        execve(cmd, args, environ);
+        perror("execve");
+        exit(1);
+    }
+    else if (pid > 0)
+    {
+        wait(NULL);
+    }
 }
+
