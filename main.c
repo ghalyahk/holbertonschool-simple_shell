@@ -14,7 +14,7 @@ int main(void)
 	{
 	
 		if (isatty(STDIN_FILENO))
-			printf(":) ");
+			printf("$ ");
 
 		line = read_line();
 		args = tokenize(line);
