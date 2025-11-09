@@ -46,7 +46,7 @@ int execute(char **args)
 		dir = strtok(NULL, ":");
 	}
 
-	perror("Command not found");
+	fprintf(stderr, "./hsh: 1: %s: not found\n", args[0]);
 	free(path_copy);
 	return (0);
 }
