@@ -22,7 +22,7 @@ int execute(char **args)
 			return (run_command(args[0], args));
 		else
 		{
-			perror("Command not found");
+			fprintf(stderr, "./hsh: 1: %s: not found\n", args[0]);
 			return (0);
 		}
 	}
