@@ -6,11 +6,11 @@ char **tokenize(char *line)
 	char *token;
 	int i = 0;
 
-	token = strtok(line, "\n");
+	token = strtok(line, " \n");
 	while (token !=NULL)
 	{
 		args[i++] = token;
-		token = strtok(NULL, "\n");
+		token = strtok(NULL, " \n");
 	}
 	args[i] = NULL;
 
