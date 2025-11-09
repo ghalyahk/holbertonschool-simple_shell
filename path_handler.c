@@ -1,39 +1,55 @@
 #include "shell.h"
 
+char *get_env_path(void)
+{
+    int i = 0;
+
+    while (environ[i])
+    {
+        if (strncmp(environ[i], "PATH=", 5) == 0)
+            return environ[i] + 5;
+        i++;
+    }
+    return NULL;
+}
+
 char *find_path(char *command)
 {
-    char *path_env = getenv("PATH");
-    char *path, *dir;
-    char full_path[1024];
+    char *path = get_env_path();
+    char *copy, *dir, *full;
+    int len;
 
-    if (!path_env)
+    if (!path)
         return NULL;
 
-    /* إذا كان الأمر فيه / يعتبر path جاهز */
+    /* إذا الأمر فيه / نفذ مباشرة */
     if (strchr(command, '/') != NULL)
     {
         if (access(command, X_OK) == 0)
             return strdup(command);
-        else
-            return NULL;
+        return NULL;
     }
 
-    path = strdup(path_env);
-    dir = strtok(path, ":");
+    copy = strdup(path);
+    dir = strtok(copy, ":");
 
     while (dir)
     {
-        sprintf(full_path, "%s/%s", dir, command);
+        len = strlen(dir) + strlen(command) + 2;
+        full = malloc(len);
+        snprintf(full, len, "%s/%s", dir, command);
 
-        if (access(full_path, X_OK) == 0)
+        if (access(full, X_OK) == 0)
         {
-            free(path);
-            return strdup(full_path);
+            free(copy);
+            return full;
         }
 
+        free(full);
         dir = strtok(NULL, ":");
     }
 
-    free(path);
+    free(copy);
     return NULL;
 }
+
