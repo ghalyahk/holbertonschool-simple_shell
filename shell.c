@@ -30,7 +30,7 @@ int main(void)
         {
             perror("Command not found");
             free_tokens(args);
-            continue;  // ✅ لا نسوي fork
+            continue;   /* no fork */
         }
 
         execute(cmd_path, args);
