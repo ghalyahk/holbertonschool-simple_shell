@@ -1,10 +1,5 @@
 #include "shell.h"
 
-/**
- * read_line - reads a line from stdin
- *
- * Return: pointer to the line read
- */
 char *read_line(void)
 {
 	char *line = NULL;
@@ -12,17 +7,8 @@ char *read_line(void)
 
 	if (getline(&line, &bufsize, stdin) == -1)
 	{
-		if (feof(stdin))
-		{
-			free(line);
-			exit(0);
-		}
-		else
-		{
-			perror("getline");
-			free(line);
-			exit(1);
-		}
+		free(line);
+		return NULL;
 	}
-	return (line);
+	return line;
 }

@@ -6,15 +6,9 @@
 #include <unistd.h>
 #include <string.h>
 #include <sys/wait.h>
-#include <sys/types.h>
-#include <sys/stat.h>
 
-extern char **environ;
-
-char *read_line(void);
 char **tokenize(char *line);
-int execute(char **args);
-int run_command(char *path, char **args);
+void execute(char **args);
 
 #endif
 
