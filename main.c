@@ -1,43 +1,27 @@
 #include "shell.h"
 
-/**
- * main - Simple shell main loop
- *
- * Return: 0 on success
- */
 int main(void)
 {
     char *line = NULL;
-    char **args = NULL;
-    int status = 1;
+    size_t len = 0;
+    char **args;
+    ssize_t nread;
 
-    while (status)
+    while (1)
     {
-        /* Print prompt ONLY if input is from terminal */
-        if (isatty(STDIN_FILENO))
-            printf("#cisfun$ ");
-
-        line = read_line();
-        if (!line) /* Ctrl+D */
-        {
-            if (isatty(STDIN_FILENO))
-                printf("\n");
+        printf("$ ");
+        nread = getline(&line, &len, stdin);
+        if (nread == -1)
             break;
-        }
 
-        args = parse_line(line);
-        if (!args)
-        {
-            free(line);
-            continue;
-        }
+        args = tokenize(line);
+        if (args[0] != NULL)
+            execute(args);
 
-        status = execute(args);
-
-        free(line);
         free(args);
     }
 
+    free(line);
     return (0);
 }
 

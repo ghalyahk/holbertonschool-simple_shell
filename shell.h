@@ -3,12 +3,12 @@
 
 #include <stdio.h>
 #include <stdlib.h>
-#include <string.h>
 #include <unistd.h>
-#include <stddef.h>
+#include <string.h>
+#include <sys/wait.h>
 
-char *read_line(void);
-char **parse_line(char *line);
-int execute(char **args);
+char **tokenize(char *line);
+void execute(char **args);
 
 #endif
+
