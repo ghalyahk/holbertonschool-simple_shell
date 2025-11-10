@@ -37,10 +37,10 @@ int main(void)
 
         if (cmd_path == NULL)
         {
-            /* اطبع رسالة خطأ مشابهة bash عند PATH فارغ */
+            
             fprintf(stderr, "./hsh: 1: %s: not found\n", args[0]);
             free_tokens(args);
-            continue;
+            exit(127);
         }
 
         execute(cmd_path, args);

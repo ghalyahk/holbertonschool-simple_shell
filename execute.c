@@ -7,12 +7,13 @@ void execute(char *cmd, char **args)
     if (pid == 0)
     {
         execve(cmd, args, environ);
-        perror("execve");
-        exit(1);
+        perror(args[0]);
+        exit(127);
     }
     else if (pid > 0)
     {
-        wait(NULL);
+        int status;
+	wait(&status);
     }
 }
 
