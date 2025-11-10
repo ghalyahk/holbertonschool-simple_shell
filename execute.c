@@ -1,10 +1,5 @@
 #include "shell.h"
 
-/**
- * execute - ينفذ الأمر الموجود في args
- * @args: مصفوفة من السلاسل (command + arguments)
- * Return: حالة الخروج من العملية
- */
 int execute(char **args)
 {
     pid_t pid;

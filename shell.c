@@ -11,7 +11,7 @@ int main(void)
         if (isatty(STDIN_FILENO))
             prompt();
 
-        if (getline(&line, &len, stdin) == -1)
+        if (my_getline(&line, &len) == -1)
         {
             free(line);
             exit(0);
@@ -24,14 +24,14 @@ int main(void)
             continue;
         }
 
-        if (strcmp(args[0], "exit") == 0)
+        if (my_strcmp(args[0], "exit") == 0)
         {
             free_tokens(args);
             free(line);
             exit(0);
         }
 
-        if (strcmp(args[0], "env") == 0)
+        if (my_strcmp(args[0], "env") == 0)
         {
             print_env();
             free_tokens(args);

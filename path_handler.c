@@ -1,55 +1,28 @@
 #include "shell.h"
-
-char *get_env_path(void)
-{
-    int i = 0;
-
-    while (environ[i])
-    {
-        if (strncmp(environ[i], "PATH=", 5) == 0)
-            return environ[i] + 5;
-        i++;
-    }
-    return NULL; /* PATH غير موجود */
-}
+#include <stdlib.h>
 
 char *find_path(char *command)
 {
-    char *path = get_env_path();
-    char *copy, *dir, *full;
-    int len;
+    /* افترض أن PATH موجود في env */
+    char **env = environ;
+    int i = 0;
+    char *copy, *dir;
 
-    /* إذا الأمر يحتوي /، نجرب تنفيذه مباشرة */
-    if (strchr(command, '/') != NULL)
+    while (env[i])
     {
-        if (access(command, X_OK) == 0)
-            return strdup(command);
-        return NULL;
+        if (my_strncmp(env[i], "PATH=", 5) == 0)
+            break;
+        i++;
     }
-
-    if (!path || path[0] == '\0') /* PATH فارغ */
+    if (!env[i])
         return NULL;
 
-    copy = strdup(path);
-    dir = strtok(copy, ":");
+    copy = my_strdup(env[i] + 5);
+    if (!copy)
+        return NULL;
 
-    while (dir)
-    {
-        len = strlen(dir) + strlen(command) + 2;
-        full = malloc(len);
-        snprintf(full, len, "%s/%s", dir, command);
-
-        if (access(full, X_OK) == 0)
-        {
-            free(copy);
-            return full;
-        }
-
-        free(full);
-        dir = strtok(NULL, ":");
-    }
-
-    free(copy);
-    return NULL;
+    dir = copy; /* لاحقًا يمكن تقسيم باستخدام دالة tokenize خاصة بـ ':' */
+    /* هذا مثال مبسط */
+    return my_strdup(command); /* مؤقت */
 }
 
