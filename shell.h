@@ -15,6 +15,6 @@ void free_tokens(char **tokens);
 char *find_path(char *command);
 char *get_env_path(void);
 int execute(char *cmd, char **args);
+void print_env(void);
 
 #endif
-

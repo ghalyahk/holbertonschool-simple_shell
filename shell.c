@@ -33,6 +33,13 @@ int main(void)
 			exit(last_status);
 		}
 
+		if (strcmp(args[0], "env") == 0)
+		{
+			print_env();
+			free_tokens(args);
+			continue;
+		}
+
 		cmd_path = find_path(args[0]);
 
 		if (cmd_path == NULL)
