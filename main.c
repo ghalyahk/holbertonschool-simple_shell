@@ -22,7 +22,6 @@ int main(void)
         if (!args)
             continue;
 
-        /* تنفيذ الأمر */
         execute(args);
 
         free_tokens(args);
