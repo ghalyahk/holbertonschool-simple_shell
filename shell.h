@@ -14,7 +14,7 @@ char **tokenize(char *line);
 void free_tokens(char **tokens);
 char *find_path(char *command);
 char *get_env_path(void);
-void execute(char *cmd, char **args);
+int execute(char *cmd, char **args);
 
 #endif
 

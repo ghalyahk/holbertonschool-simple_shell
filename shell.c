@@ -6,6 +6,7 @@ int main(void)
 	size_t len = 0;
 	char **args;
 	char *cmd_path;
+	int last_status = 0;
 
 	while (1)
 	{
@@ -15,7 +16,7 @@ int main(void)
 		if (getline(&line, &len, stdin) == -1)
 		{
 			free(line);
-			exit(0);
+			exit(last_status);
 		}
 
 		args = tokenize(line);
@@ -25,12 +26,11 @@ int main(void)
 			continue;
 		}
 
-	
 		if (strcmp(args[0], "exit") == 0)
 		{
 			free_tokens(args);
 			free(line);
-			exit(0);
+			exit(last_status);
 		}
 
 		cmd_path = find_path(args[0]);
@@ -43,9 +43,8 @@ int main(void)
 			exit(127);
 		}
 
-		execute(cmd_path, args);
+		last_status = execute(cmd_path, args);
 
-	
 		free(cmd_path);
 		free_tokens(args);
 	}

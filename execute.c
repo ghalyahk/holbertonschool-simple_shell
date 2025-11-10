@@ -1,11 +1,6 @@
 #include "shell.h"
 
-/**
- * execute - creates a child process to execute a command
- * @cmd: command path
- * @args: command arguments
- */
-void execute(char *cmd, char **args)
+int execute(char *cmd, char **args)
 {
 	pid_t pid = fork();
 	int status;
@@ -18,14 +13,14 @@ void execute(char *cmd, char **args)
 
 	if (pid == 0)
 	{
-		
 		execve(cmd, args, environ);
 		perror(args[0]);
 		exit(127);
 	}
 	else
 	{
-		
 		wait(&status);
 	}
+
+	return (WEXITSTATUS(status));
 }
