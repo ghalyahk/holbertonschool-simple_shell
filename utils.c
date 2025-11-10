@@ -66,7 +66,7 @@ char *my_strdup(const char *s)
     return copy;
 }
 
-/* my_strcmp */
+/* my_strcmp: مقارنة سلسلتين */
 int my_strcmp(const char *s1, const char *s2)
 {
     while (*s1 && *s1 == *s2)
@@ -77,7 +77,7 @@ int my_strcmp(const char *s1, const char *s2)
     return (*(unsigned char *)s1 - *(unsigned char *)s2);
 }
 
-/* my_strncmp */
+/* my_strncmp: مقارنة n حروف من سلسلتين */
 int my_strncmp(const char *s1, const char *s2, size_t n)
 {
     int i;
@@ -89,7 +89,7 @@ int my_strncmp(const char *s1, const char *s2, size_t n)
     return 0;
 }
 
-/* my_strchr */
+/* my_strchr: البحث عن حرف في سلسلة */
 char *my_strchr(const char *s, int c)
 {
     while (*s)
@@ -101,5 +101,19 @@ char *my_strchr(const char *s, int c)
     if (c == 0)
         return (char *)s;
     return NULL;
+}
+
+/* free_tokens: تحرير مصفوفة من السلاسل */
+void free_tokens(char **tokens)
+{
+    int i;
+
+    if (!tokens)
+        return;
+
+    for (i = 0; tokens[i]; i++)
+        free(tokens[i]);
+
+    free(tokens);
 }
 

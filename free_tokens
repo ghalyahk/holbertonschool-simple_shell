@@ -1,0 +1,15 @@
+#include <stdlib.h>
+
+/* free_tokens: تحرر مصفوفة من السلاسل */
+void free_tokens(char **tokens)
+{
+    int i;
+
+    if (!tokens)
+        return;
+
+    for (i = 0; tokens[i]; i++)
+        free(tokens[i]);
+
+    free(tokens);
+}
