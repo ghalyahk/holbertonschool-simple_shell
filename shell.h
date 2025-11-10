@@ -1,22 +1,23 @@
 #ifndef SHELL_H
 #define SHELL_H
 
-/* ===== LIBRARIES YOU MUST INCLUDE ===== */
 #include <stdio.h>
 #include <stdlib.h>
 #include <unistd.h>
 #include <string.h>
 #include <sys/wait.h>
 
-/* لازم نكتب التصريح الخاص بـ environ */
+/* environ لازم لتعريف execve */
 extern char **environ;
 
-/* prototypes */
+/* بروتوتايب الدوال */
 ssize_t _getline(char **lineptr, size_t *n);
 char **tokenize(char *line);
-void execute(char **args);
+int execute(char **args);
 void prompt(void);
 char *find_path(char *command);
+void free_tokens(char **tokens);
+void print_env(void);
 
 #endif
 

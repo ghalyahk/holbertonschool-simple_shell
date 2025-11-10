@@ -5,23 +5,31 @@ int main(void)
     char *line = NULL;
     size_t n = 0;
     ssize_t read_len;
+    char **args;
+    int last_status = 0;
 
     while (1)
     {
-        write(1, "$ ", 2);
+        prompt();
 
         read_len = _getline(&line, &n);
         if (read_len == -1)
             break;
 
-        /* شيل النيو لاين */
         if (line[read_len - 1] == '\n')
             line[read_len - 1] = '\0';
 
-        /* هنا تفصل التوكنز */
-        /* هنا تنفذ الأمر */
+        args = tokenize(line);
+        if (!args)
+            continue;
+
+        /* تنفيذ الأمر */
+        last_status = execute(args);
+
+        free_tokens(args);
     }
 
     free(line);
     return (0);
 }
+
