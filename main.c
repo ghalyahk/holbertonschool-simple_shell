@@ -6,7 +6,6 @@ int main(void)
     size_t n = 0;
     ssize_t read_len;
     char **args;
-    int last_status = 0;
 
     while (1)
     {
@@ -24,7 +23,7 @@ int main(void)
             continue;
 
         /* تنفيذ الأمر */
-        last_status = execute(args);
+        execute(args);
 
         free_tokens(args);
     }
