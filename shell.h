@@ -17,6 +17,7 @@ void prompt(void);
 char *find_path(char *command);
 void free_tokens(char **tokens);
 void print_env(void);
+ssize_t my_getline(char **lineptr, size_t *n);
 
 /* دوال خاصة لتجنب الدوال المحظورة */
 int my_strcmp(const char *s1, const char *s2);
